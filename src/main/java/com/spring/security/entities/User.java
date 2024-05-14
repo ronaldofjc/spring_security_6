@@ -1,9 +1,10 @@
 package com.spring.security.entities;
 
+import com.spring.security.controller.dto.LoginRequest;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 import java.util.UUID;
@@ -12,7 +13,6 @@ import java.util.UUID;
 @Table(name = "tb_users")
 @Getter
 @Setter
-@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -28,4 +28,8 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    public boolean isCorrectLogin(LoginRequest loginRequest, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(loginRequest.password(), this.password);
+    }
 }
