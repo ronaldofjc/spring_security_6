@@ -1,4 +1,9 @@
 package com.spring.security.controller.dto;
 
-public record LoginResponse(String accessToken, Long expiresIn) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record LoginResponse(
+    @JsonProperty("access_token") String accessToken,
+    @JsonProperty("expires_in") Long expiresIn
+) {
 }
